@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <div id="colors-wrapper">
+        <button class="color-arrow red"
+                data-color="red"></button>
+
+        <button class="color-arrow green"
+                data-color="green"></button>
+
+        <button class="color-arrow blue"
+                data-color="blue"></button>
+
+        <button class="color-arrow black"
+                data-color="black"></button>
+
+        <button class="color-arrow white"
+                data-color="white"></button>
+    </div>
+    <form class="upload" id="upload">
+        <img src="images/upload.svg" alt="upload">
+    </form>
+</div>
+<div class="btns-wrapper">
+    <button class="btn"
+            onclick="save()">Скачать оригинал</button>
+
+<!--    <a id="save" href="" download> </a>-->
+    <button class="btn"
+            onclick="saveMin()">Скачать миниатюру</button>
+</div>
+
+<script rel="script" src="js/pixi.min.js" type="application/javascript"></script>
+<script rel="script" src="js/pixiScene.js" type="application/javascript"></script>
+<script rel="script" src="js/dragNdrop.js" type="application/javascript"></script>
+
+</body>
+</html>

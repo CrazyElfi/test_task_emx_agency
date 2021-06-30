@@ -1,0 +1,12 @@
+{
+  "name": "test-task",
+  "version": "1.0.0",
+  "description": "make pixi.js game",
+  "main": "main.js",
+  "keywords": [
+    "pixi.js"
+  ],
+  "author": "elfi",
+  "scripts": {},
+  "devDependencies": {}
+}
