@@ -1,4 +1,3 @@
-console.log('pixi')
 let dropArea = document.getElementById('upload')
 let buttonsColor = document.getElementById('colors-wrapper')
 let cvs = document.querySelector('canvas')
@@ -27,7 +26,6 @@ function toggleCanvas () {
   if (areaPixi.classList.contains('hidden')) {
     areaPixi.classList.remove('hidden')
     areaPixi.id = 'canvas-field'
-    console.log('width', app.view.width)
   }
 }
 

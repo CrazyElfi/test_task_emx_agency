@@ -99,9 +99,9 @@ window.onload = () => {
       e.stopPropagation()
       e.preventDefault()
     })
-
-    e.stopPropagation();
-    e.preventDefault();
+    //
+    // e.stopPropagation();
+    // e.preventDefault();
     return false;
   }
 
