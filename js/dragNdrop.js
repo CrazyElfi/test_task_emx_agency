@@ -14,9 +14,9 @@ window.onload = () => {
   dropArea.ondragleave = dragleave_handler
   dropArea.ondrop = drop_handler
   dropArea.onclick = load_handler
+  let input = document.getElementById('fileElem')
 
   function load_handler () {
-    let input = document.getElementById('fileElem')
     input.click()
     input.addEventListener('change', (e) => {
       let file = input.files[0];
@@ -94,6 +94,11 @@ window.onload = () => {
     imgUploaded.classList.add('hidden')
     buttonsColor.style.display = 'flex'
     buttonsDownloaded.style.display = 'flex'
+
+    input.addEventListener('click', (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+    })
 
     e.stopPropagation();
     e.preventDefault();
