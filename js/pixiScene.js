@@ -62,5 +62,3 @@ function drawArrow (data) {
   app.stage.addChild(line)
   app.stage.addChild(spriteArrow)
 }
-
-

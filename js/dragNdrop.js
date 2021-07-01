@@ -13,6 +13,49 @@ window.onload = () => {
   dropArea.ondragover = dragenter_handler
   dropArea.ondragleave = dragleave_handler
   dropArea.ondrop = drop_handler
+  dropArea.onclick = load_handler
+
+  function load_handler () {
+    let input = document.getElementById('fileElem')
+    input.click()
+    input.addEventListener('change', (e) => {
+      let file = input.files[0];
+
+      console.log(file); // например, my.png
+
+      let reader = new FileReader ()
+      reader.readAsDataURL (file)
+
+      reader.onload = () => {
+        app.loader.add('image', reader.result).load((loader, resources) => {
+          const image = new PIXI.Sprite(resources.image.texture);
+          image.x = app.renderer.width / 2;
+          image.y = app.renderer.height / 2;
+          image.anchor.x = 0.5;
+          image.anchor.y = 0.5;
+          app.stage.addChild(image);
+        });
+      }
+
+      let uploadedImage
+      if(file) {
+        uploadedImage = file.name
+      }
+      toggleCanvas ()
+      imgUploaded.classList.add('hidden')
+      buttonsColor.style.display = 'flex'
+      buttonsDownloaded.style.display = 'flex'
+
+      input.addEventListener('click', (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+      })
+
+      // input.stopPropagation();
+      // input.preventDefault();
+      return false;
+    })
+  }
 
   function dragenter_handler(e) {
     e.stopPropagation();
@@ -20,7 +63,6 @@ window.onload = () => {
     dropArea.style.background='#ffffff';
     // console.log('drop enter', e)
   }
-
   function dragleave_handler() {
     dropArea.style.background='rgba(196, 196, 196, 0.36)';
   }

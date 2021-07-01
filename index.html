@@ -25,14 +25,20 @@
                 data-color="white"></button>
     </div>
     <form class="upload" id="upload">
+        <input
+                type="file"
+                id="fileElem"
+                style="display: none;"
+                data-multiple-caption="{count} files selected"
+                multiple
+        />
+
         <img src="images/upload.svg" alt="upload">
     </form>
 </div>
 <div class="btns-wrapper">
     <button class="btn"
             onclick="save()">Скачать оригинал</button>
-
-<!--    <a id="save" href="" download> </a>-->
     <button class="btn"
             onclick="saveMin()">Скачать миниатюру</button>
 </div>
