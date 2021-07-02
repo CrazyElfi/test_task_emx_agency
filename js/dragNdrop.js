@@ -1,9 +1,18 @@
 window.onload = () => {
-  console.log('start')
   let buttonsColor =document.getElementById('colors-wrapper')
   let buttonsDownloaded = document.querySelector('.btns-wrapper')
   let imgUploaded = document.querySelector('img')
   let cvs = document.querySelector('canvas')
+  const input = document.getElementById('fileElem')
+  let isClickable = true
+
+  let stopDefault = (e) => {
+    if(!isClickable) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
+  }
+  input.addEventListener('click', stopDefault)
 
   buttonsColor.style.display = 'none'
   buttonsDownloaded.style.display = 'none'
@@ -14,48 +23,18 @@ window.onload = () => {
   dropArea.ondragleave = dragleave_handler
   dropArea.ondrop = drop_handler
   dropArea.onclick = load_handler
-  let input = document.getElementById('fileElem')
 
   function load_handler () {
     input.click()
-    input.addEventListener('change', (e) => {
-      let file = input.files[0];
-
-      console.log(file); // например, my.png
-
-      let reader = new FileReader ()
-      reader.readAsDataURL (file)
-
-      reader.onload = () => {
-        app.loader.add('image', reader.result).load((loader, resources) => {
-          const image = new PIXI.Sprite(resources.image.texture);
-          image.x = app.renderer.width / 2;
-          image.y = app.renderer.height / 2;
-          image.anchor.x = 0.5;
-          image.anchor.y = 0.5;
-          app.stage.addChild(image);
-        });
-      }
-
-      let uploadedImage
-      if(file) {
-        uploadedImage = file.name
-      }
-      toggleCanvas ()
-      imgUploaded.classList.add('hidden')
-      buttonsColor.style.display = 'flex'
-      buttonsDownloaded.style.display = 'flex'
-
-      input.addEventListener('click', (e) => {
-        e.stopPropagation()
-        e.preventDefault()
-      })
-
-      // input.stopPropagation();
-      // input.preventDefault();
-      return false;
-    })
   }
+
+  input.addEventListener('change', (e) => {
+    let file = input.files[0]
+
+    addedImageOnScene(file)
+    toggleCanvas()
+    showButtonsAndHideImage ()
+  })
 
   function dragenter_handler(e) {
     e.stopPropagation();
@@ -71,19 +50,8 @@ window.onload = () => {
     if(!dt && !dt.files) { return false ; }
 
     let fs = e.dataTransfer.files // Add event object's properties
-    let reader = new FileReader () // FileReader interface to read the file
-    reader.readAsDataURL (fs [0]) // file read as DataURL
 
-    reader.onload = () => {
-      app.loader.add('image', reader.result).load((loader, resources) => {
-        const image = new PIXI.Sprite(resources.image.texture);
-        image.x = app.renderer.width / 2;
-        image.y = app.renderer.height / 2;
-        image.anchor.x = 0.5;
-        image.anchor.y = 0.5;
-        app.stage.addChild(image);
-      });
-    }
+    addedImageOnScene(fs[0])
 
     let files = dt.files;
     let uploadedImage
@@ -91,18 +59,9 @@ window.onload = () => {
       uploadedImage = files[i].name
     }
     toggleCanvas ()
-    imgUploaded.classList.add('hidden')
-    buttonsColor.style.display = 'flex'
-    buttonsDownloaded.style.display = 'flex'
+    showButtonsAndHideImage ()
 
-    input.addEventListener('click', (e) => {
-      e.stopPropagation()
-      e.preventDefault()
-    })
-    //
-    // e.stopPropagation();
-    // e.preventDefault();
-    return false;
+    stopBehavior (e)
   }
 
   let objdArrow = {
@@ -140,6 +99,35 @@ window.onload = () => {
     objdArrow.endY = coords.y
     drawArrow(objdArrow)
   })
+
+  function stopBehavior (e) {
+    e.stopPropagation()
+    e.preventDefault()
+  }
+
+  function addedImageOnScene(data) {
+    let reader = new FileReader () // FileReader interface to read the file
+    reader.readAsDataURL (data) // file read as DataURL
+    reader.onload = () => {
+      app.loader.add('image', reader.result).load((loader, resources) => {
+        const image = new PIXI.Sprite(resources.image.texture);
+        image.x = app.renderer.width / 2;
+        image.y = app.renderer.height / 2;
+        image.anchor.x = 0.5;
+        image.anchor.y = 0.5;
+        app.stage.addChild(image);
+
+        // do commons things
+        isClickable = false
+      });
+    }
+  }
+
+  function showButtonsAndHideImage () {
+    imgUploaded.classList.add('hidden')
+    buttonsColor.style.display = 'flex'
+    buttonsDownloaded.style.display = 'flex'
+  }
 }
 
 function relMouseCoords(event){
@@ -163,11 +151,9 @@ function relMouseCoords(event){
 HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
 
 function save() {
-  console.log('save')
   watermark.visible = true
   saveCanvasInPng(app.renderer, app.stage, 'test')
   watermark.visible = false
-  console.log(app.stage)
 }
 
 function saveCanvasInPng(renderer, sprite, fileName) {
