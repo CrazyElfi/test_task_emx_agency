@@ -5,7 +5,7 @@
 Прототип:
 https:/https://www.figma.com/file/8FFuattxv1rGUhM8iAo0VX/Untitled?node-id=0%3A1
 
-Результат задания пришлите на почту et@emailmatrix.ru
+Результат задания пришлите на почту.
 
 
 Срок выполнения 7 дней.
